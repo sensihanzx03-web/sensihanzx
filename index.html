@@ -748,4 +748,120 @@
 
         function switchAdminTab(tab) {
             document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.admin-section').forEach(s =>
+            document.querySelectorAll('.admin-section').forEach(s =>s.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        }
+
+        function loadAdminData() {
+            const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+            const userList = document.getElementById('userList');
+            userList.innerHTML = '';
+
+            // Agregar admin a la lista
+            const adminItem = document.createElement('div');
+            adminItem.className = 'user-item';
+            adminItem.innerHTML = `
+                <div class="user-item-info">
+                    <span class="user-item-name">SENSI HANZX 👑</span>
+                    <span class="user-item-email">${ADMIN_EMAIL}</span>
+                </div>
+                <span style="color: #eab308; font-size: 0.8rem;">ADMIN</span>
+            `;
+            userList.appendChild(adminItem);
+
+            users.forEach(user => {
+                const item = document.createElement('div');
+                item.className = 'user-item';
+                const roleTag = user.role === 'mod' || MODERATORS.includes(user.email) ? '<span style="color: #00ff88; font-size: 0.7rem;">MOD</span>' : '';
+                item.innerHTML = `
+                    <div class="user-item-info">
+                        <span class="user-item-name">${user.name} ${roleTag}</span>
+                        <span class="user-item-email">${user.email}</span>
+                    </div>
+                    <button class="btn-submit btn-danger btn-small" onclick="deleteUser('${user.email}')">Borrar</button>
+                `;
+                userList.appendChild(item);
+            });
+
+            document.getElementById('statUsers').textContent = users.length + 1;
+            document.getElementById('statProducts').textContent = document.querySelectorAll('.product-card').length;
+        }
+
+        function deleteUser(email) {
+            if (confirm('¿Borrar usuario ' + email + '?')) {
+                let users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+                users = users.filter(u => u.email !== email);
+                localStorage.setItem('sensi_users', JSON.stringify(users));
+                loadAdminData();
+            }
+        }
+
+        function exportUsers() {
+            const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+            const dataStr = JSON.stringify(users, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'usuarios_sensi_hanzx.json';
+            link.click();
+        }
+
+        function clearAllUsers() {
+            if (confirm('¿BORRAR TODOS LOS USUARIOS? Esta acción no se puede deshacer')) {
+                localStorage.removeItem('sensi_users');
+                loadAdminData();
+                updateUserCount();
+            }
+        }
+
+        function deleteProduct(btn) {
+            if (confirm('¿Borrar este producto?')) {
+                btn.closest('.product-card').remove();
+            }
+        }
+
+        document.getElementById('productForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('prodName').value;
+            const category = document.getElementById('prodCategory').value;
+            const desc = document.getElementById('prodDesc').value;
+            const priceMXN = document.getElementById('prodPriceMXN').value;
+            const priceUSD = document.getElementById('prodPriceUSD').value;
+            const link = document.getElementById('prodLink').value;
+
+            const grid = document.getElementById('productsGrid');
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <button class="btn-delete" onclick="deleteProduct(this)"><i data-lucide="trash-2" style="width:14px;height:14px;"></i></button>
+                <span class="product-badge">${category}</span>
+                <div class="product-icon"><i data-lucide="zap"></i></div>
+                <h3 class="product-title">${name} <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">${desc}</p>
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$${priceMXN} MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$${priceUSD} USD</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="${link}" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            `;
+            grid.appendChild(card);
+            lucide.createIcons();
+            this.reset();
+            alert('Producto agregado ✅');
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
