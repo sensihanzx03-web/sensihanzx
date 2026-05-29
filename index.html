@@ -431,3 +431,158 @@
     </div>
     
     <div
+    <div class="section">
+        <div class="creator-card">
+            <div class="creator-icon">
+                <i data-lucide="crown"></i>
+            </div>
+            <div class="creator-badge">
+                <i data-lucide="shield" style="width:14px;height:14px;"></i>
+                CREADOR OFICIAL
+            </div>
+            <h3 class="creator-name">SENSI <span class="highlight"> HANZX</span></h3>
+            <p class="creator-role">Fundador de SENSI HANZX</p>
+            <a href="https://wa.me/528683555629" class="btn-main">
+                <i data-lucide="message-circle"></i>
+                CONTACTAR AL CREADOR
+            </a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i data-lucide="crown"></i>
+                <span><span class="glow-text">SENSI</span> HANZX</span>
+            </div>
+            <p class="footer-text">Mercado Digital Premium - Todos los derechos reservados 2026</p>
+            <p class="footer-note">⚠️ USA: Se cobran $2 USD extra como comisión</p>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/528683555629" class="btn-float">
+        <i data-lucide="message-circle"></i>
+    </a>
+    
+    <script>
+        lucide.createIcons();
+        
+        // Partículas
+        const particlesDiv = document.getElementById('particles');
+        for(let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            particlesDiv.appendChild(particle);
+        }
+        
+        // SISTEMA DE LOGIN - AQUÍ ESTABA EL PROBLEMA
+        let isLoginMode = true;
+        
+        function openModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('authForm').reset();
+            document.getElementById('errorMsg').classList.remove('active');
+        }
+        
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const nameGroup = document.getElementById('nameGroup');
+            const modalTitle = document.getElementById('modalTitle');
+            const submitBtn = document.getElementById('submitBtn');
+            const switchText = document.getElementById('switchText');
+            const switchLink = document.getElementById('switchLink');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            
+            if (isLoginMode) {
+                nameGroup.style.display = 'none';
+                modalTitle.textContent = 'Bienvenido de nuevo';
+                modalSubtitle.textContent = 'Inicia sesión en tu cuenta';
+                submitBtn.textContent = 'Acceso';
+                switchText.textContent = '¿No tienes cuenta?';
+                switchLink.textContent = 'Regístrate';
+            } else {
+                nameGroup.style.display = 'block';
+                modalTitle.textContent = 'Crear cuenta';
+                modalSubtitle.textContent = 'Regístrate para continuar';
+                submitBtn.textContent = 'Crear cuenta';
+                switchText.textContent = '¿Ya tienes cuenta?';
+                switchLink.textContent = 'Inicia sesión';
+            }
+            document.getElementById('errorMsg').classList.remove('active');
+        }
+        
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (isLoginMode) {
+                const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    localStorage.setItem('sensi_currentUser', JSON.stringify(user));
+                    updateUI();
+                    closeModal();
+                } else {
+                    errorMsg.textContent = 'Email o contraseña incorrectos';
+                    errorMsg.classList.add('active');
+                }
+            } else {
+                if (!name) {
+                    errorMsg.textContent = 'Ingresa tu nombre';
+                    errorMsg.classList.add('active');
+                    return;
+                }
+                
+                const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+                if (users.find(u => u.email === email)) {
+                    errorMsg.textContent = 'Este email ya está registrado';
+                    errorMsg.classList.add('active');
+                    return;
+                }
+                
+                const newUser = { name, email, password, date: new Date().toISOString() };
+                users.push(newUser);
+                localStorage.setItem('sensi_users', JSON.stringify(users));
+                localStorage.setItem('sensi_currentUser', JSON.stringify(newUser));
+                updateUI();
+                closeModal();
+            }
+        });
+        
+        function logout() {
+            localStorage.removeItem('sensi_currentUser');
+            updateUI();
+        }
+        
+        function updateUI() {
+            const currentUser = JSON.parse(localStorage.getItem('sensi_currentUser') || 'null');
+            const userInfo = document.getElementById('userInfo');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (currentUser) {
+                userInfo.classList.add('active');
+                loginBtn.style.display = 'none';
+                document.getElementById('userNameDisplay').textContent = currentUser.name;
+                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                userInfo.classList.remove('active');
+                loginBtn.style.display = 'flex';
+            }
+        }
+        
+        updateUI();
+    </script>
+</body>
+</html>
