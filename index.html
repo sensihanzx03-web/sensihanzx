@@ -23,4 +23,478 @@
         .particle { position: fixed; width: 2px; height: 2px; background: #00ff88; border-radius: 50%; animation: float 8s infinite; z-index: 0; opacity: 0.4; }
         @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 50% { opacity: 0.6; } 100% { transform: translateY(-100vh) translateX(30px); opacity: 0; } }
         
-        .top-bar { border-bottom: 1px solid rgba(0,255,136,0.2); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z
+        .top-bar { border-bottom: 1px solid rgba(0,255,136,0.2); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .header-container { max-width: 1200px; margin: auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { display: flex; align-items: center; gap: 8px; font-size: 1.2rem; font-weight: 900; }
+        .logo i { color: #00ff88; }
+        .glow-text { color: #00ff88; text-shadow: 0 0 15px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .btn-login { background: transparent; border: 1px solid rgba(0,255,136,0.5); color: #00ff88; padding: 8px 16px; border-radius: 12px; cursor: pointer; font-family: 'Orbitron'; font-weight: bold; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .btn-login:hover { background: rgba(0,255,136,0.1); }
+        .user-info { display: none; align-items: center; gap: 8px; color: #00ff88; font-size: 0.85rem; }
+        .user-info.active { display: flex; }
+        .user-avatar-header { width: 32px; height: 32px; border-radius: 50%; background: rgba(0,255,136,0.2); display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .btn-logout { background: none; border: none; color: rgba(255,255,255,0.5); cursor: pointer; padding: 4px; }
+        
+        .hero { position: relative; z-index: 1; max-width: 800px; margin: auto; padding: 40px 20px 60px; text-align: center; }
+        .badge-online { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,0,0,0.4); font-size: 0.75rem; font-weight: bold; margin-bottom: 40px; }
+        .badge-online .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        .hero h1 { font-size: 4rem; font-weight: 900; margin-bottom: 16px; }
+        .hero .subtitulo { color: rgba(255,255,255,0.6); margin-bottom: 50px; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 400px; margin: 0 auto 24px; }
+        .stat-box { border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); padding: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; }
+        .stat-box i { color: #00ff88; width: 20px; height: 20px; }
+        .stat-box .num { font-size: 1.5rem; font-weight: bold; color: #00ff88; }
+        .stat-box .label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+        
+        .soporte-box { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; background: rgba(0,0,0,0.4); padding: 12px 24px; margin-bottom: 50px; }
+        .soporte-box i { color: #00ff88; width: 16px; height: 16px; }
+        
+        .btn-main { width: 100%; max-width: 350px; margin: 0 auto 16px; background: #00ff88; color: #0a0a0f; font-weight: 900; padding: 16px; border-radius: 16px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; font-size: 1rem; box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.1); transition: 0.3s; }
+        .btn-main:hover { transform: scale(1.05); }
+        
+        .btn-second { width: 100%; max-width: 350px; margin: 0 auto; background: transparent; color: #00ff88; font-weight: 900; padding: 16px; border-radius: 16px; border: 2px solid rgba(0,255,136,0.5); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; font-size: 1rem; transition: 0.3s; }
+        .btn-second:hover { background: rgba(0,255,136,0.1); }
+        
+        .section { padding: 60px 20px; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .badge-section { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,0,0,0.4); font-size: 0.75rem; font-weight: bold; margin-bottom: 16px; }
+        .section h2 { font-size: 2.5rem; font-weight: 900; }
+        .section h2 .highlight { color: #00ff88; }
+        
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .product-card { border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); padding: 24px; position: relative; transition: 0.3s; }
+        .product-card:hover { border-color: rgba(0,255,136,0.6); box-shadow: 0 0 30px rgba(0,255,136,0.2); }
+        .product-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; background: #00ff88; color: #0a0a0f; }
+        .product-icon { width: 100%; height: 100px; background: rgba(0,0,0,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .product-icon i { color: #00ff88; width: 48px; height: 48px; }
+        .product-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+        .product-title .star { color: #eab308; }
+        .product-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; line-height: 1.4; }
+        .price-section { margin-bottom: 16px; border: 1px solid rgba(0,255,136,0.2); border-radius: 12px; padding: 12px; background: rgba(0,0,0,0.3); }
+        .price-option { margin-bottom: 12px; }
+        .price-option:last-child { margin-bottom: 0; }
+        .price-option-title { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 6px; font-weight: bold; }
+        .price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+        .price-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+        .price { font-size: 1.3rem; font-weight: 900; color: #00ff88; }
+        .price-usd { font-size: 1rem; color: rgba(255,255,255,0.7); }
+        .btn-comprar { width: 100%; background: #00ff88; color: #0a0a0f; font-weight: bold; padding: 14px; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; transition: 0.3s; }
+        .btn-comprar:hover { transform: scale(1.05); }
+        
+        /* MODAL LOGIN */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+        .modal.active { display: flex; }
+        .modal-content { background: #0f0f1a; border: 1px solid rgba(0,255,136,0.2); border-radius: 24px; padding: 0; max-width: 440px; width: 100%; position: relative; overflow: hidden; }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: none; border: none; color: rgba(255,255,255,0.4); cursor: pointer; z-index: 10; }
+        .modal-close:hover { color: #fff; }
+        .modal-header { text-align: center; padding: 40px 40px 24px; }
+        .modal-icon { width: 64px; height: 64px; background: #00ff88; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+        .modal-icon i { color: #0a0a0f; width: 32px; height: 32px; }
+        .modal-title { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
+        .modal-subtitle { font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+        .modal-body { padding: 0 40px 40px; }
+        .form-group { margin-bottom: 20px; }
+        .form-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .form-label { font-size: 0.9rem; color: #fff; font-weight: 500; }
+        .forgot-link { font-size: 0.85rem; color: #00ff88; text-decoration: none; cursor: pointer; }
+        .forgot-link:hover { text-decoration: underline; }
+        .input-wrapper { position: relative; }
+        .input-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: rgba(255,255,255,0.4); width: 20px; height: 20px; }
+        .form-input { width: 100%; padding: 14px 14px 44px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: #fff; font-family: 'Orbitron'; font-size: 0.95rem; }
+        .form-input:focus { outline: none; border-color: #00ff88; background: rgba(0,255,136,0.05); }
+        .form-input::placeholder { color: rgba(255,255,255,0.3); }
+        .btn-submit { width: 100%; background: #00ff88; color: #0a0a0f; font-weight: 900; padding: 16px; border-radius: 12px; border: none; cursor: pointer; font-family: 'Orbitron'; font-size: 1rem; margin-top: 8px; transition: 0.3s; }
+        .btn-submit:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+        .form-switch { text-align: center; margin-top: 24px; font-size: 0.9rem; color: rgba(255,255,255,0.5); }
+        .form-switch a { color: #00ff88; cursor: pointer; font-weight: bold; }
+        .form-switch a:hover { text-decoration: underline; }
+        .error-msg { color: #ff3d3d; font-size: 0.85rem; margin-top: 8px; display: none; text-align: center; }
+        .error-msg.active { display: block; }
+        
+        .creator-card { max-width: 500px; margin: 60px auto 0; border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); padding: 40px; text-align: center; }
+        .creator-icon { width: 100px; height: 100px; margin: 0 auto 20px; border: 3px solid rgba(0,255,136,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .creator-icon i { color: #00ff88; width: 48px; height: 48px; }
+        .creator-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 50px; background: #00ff88; color: #0a0a0f; font-size: 0.75rem; font-weight: bold; margin-bottom: 16px; }
+        .creator-name { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
+        .creator-name .highlight { color: #00ff88; }
+        .creator-role { color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+        
+        footer { border-top: 1px solid rgba(0,255,136,0.2); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); padding: 40px 20px; margin-top: 60px; position: relative; z-index: 1; }
+        .footer-content { max-width: 1200px; margin: auto; text-align: center; }
+        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.3rem; font-weight: 900; margin-bottom: 12px; }
+        .footer-logo i { color: #00ff88; }
+        .footer-text { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
+        .footer-note { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 8px; }
+        
+        .btn-float { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #00ff88; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(0,255,136,0.6); text-decoration: none; z-index: 99; transition: 0.3s; }
+        .btn-float:hover { transform: scale(1.1); }
+        .btn-float i { color: #0a0a0f; width: 24px; height: 24px; }
+        
+        @media(max-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .products-grid { grid-template-columns: 1fr; }
+            .header-actions { gap: 8px; }
+            .btn-login { padding: 6px 12px; font-size: 0.75rem; }
+            .modal-content { padding: 0; }
+            .modal-header { padding: 32px 24px 20px; }
+            .modal-body { padding: 0 24px 32px; }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    
+    <!-- MODAL LOGIN -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()"><i data-lucide="x"></i></button>
+            
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i data-lucide="log-in"></i>
+                </div>
+                <h2 class="modal-title" id="modalTitle">Bienvenido de nuevo</h2>
+                <p class="modal-subtitle" id="modalSubtitle">Inicia sesión en tu cuenta</p>
+            </div>
+            
+            <div class="modal-body">
+                <form id="authForm">
+                    <div class="form-group" id="nameGroup" style="display: none;">
+                        <label class="form-label">Nombre</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="user" class="input-icon"></i>
+                            <input type="text" class="form-input" id="userName" placeholder="Tu nombre">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Correo electrónico</label>
+                        <div class="input-wrapper">
+                            <i data-lucide="mail" class="input-icon"></i>
+                            <input type="email" class="form-input" id="userEmail" placeholder="tú@ejemplo.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="form-label-row">
+                            <label class="form-label">Contraseña</label>
+                            <a class="forgot-link">¿Has olvidado tu contraseña?</a>
+                        </div>
+                        <div class="input-wrapper">
+                            <i data-lucide="lock" class="input-icon"></i>
+                            <input type="password" class="form-input" id="userPassword" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    
+                    <div class="error-msg" id="errorMsg"></div>
+                    
+                    <button type="submit" class="btn-submit" id="submitBtn">Acceso</button>
+                    
+                    <p class="form-switch">
+                        <span id="switchText">¿No tienes cuenta?</span>
+                        <a onclick="toggleAuthMode()" id="switchLink">Regístrate</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="top-bar">
+        <div class="header-container">
+            <div class="logo">
+                <i data-lucide="crown"></i>
+                <span><span class="glow-text">SENSI</span> HANZX</span>
+            </div>
+            <div class="header-actions">
+                <div class="user-info" id="userInfo">
+                    <div class="user-avatar-header" id="userAvatar">U</div>
+                    <span id="userNameDisplay">Usuario</span>
+                    <button class="btn-logout" onclick="logout()"><i data-lucide="log-out" style="width:16px;height:16px;"></i></button>
+                </div>
+                <button class="btn-login" id="loginBtn" onclick="openModal()">
+                    <i data-lucide="log-in" style="width:16px;height:16px;"></i>
+                    LOGIN
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="hero">
+        <div class="badge-online">
+            <div class="dot"></div>
+            <span>ONLINE</span>
+        </div>
+        
+        <h1><span class="glow-text">SENSI</span> HANZX</h1>
+        <p class="subtitulo">👑 MERCADO DIGITAL PREMIUM 👑</p>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <i data-lucide="users"></i>
+                <div>
+                    <p class="num">246</p>
+                    <p class="label">Online</p>
+                </div>
+            </div>
+            <div class="stat-box">
+                <i data-lucide="shopping-cart"></i>
+                <div>
+                    <p class="num">1,844</p>
+                    <p class="label">Pedidos</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="soporte-box">
+            <i data-lucide="wifi"></i>
+            <span>24/7 Soporte</span>
+        </div>
+        
+        <a href="#productos" class="btn-main">
+            <i data-lucide="zap"></i>
+            VER PRODUCTOS
+        </a>
+        <a href="https://wa.me/528683555629" class="btn-second">
+            <i data-lucide="crown"></i>
+            CONTACTAR
+        </a>
+    </div>
+    
+    <div class="section" id="productos">
+        <div class="section-header">
+            <div class="badge-section">
+                <i data-lucide="box"></i>
+                <span>CATÁLOGO 1 MES</span>
+            </div>
+            <h2>PLANES <span class="highlight">MENSUALES</span></h2>
+        </div>
+        
+        <div class="products-grid">
+            <div class="product-card">
+                <span class="product-badge">IPHONE</span>
+                <div class="product-icon"><i data-lucide="smartphone"></i></div>
+                <h3 class="product-title">FLOURITE <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">Duracion - 1 Mes</p>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <p class="price-option-title">PANEL + KEY + CERTIFICADO 1 AÑO</p>
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$620 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$37 USD</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-option">
+                        <p class="price-option-title">SOLO PANEL + KEY</p>
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$470 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$27 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/528683555629?text=Quiero+FLOURITE+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            </div>
+            
+            <div class="product-card">
+                <span class="product-badge">IPHONE</span>
+                <div class="product-icon"><i data-lucide="shield"></i></div>
+                <h3 class="product-title">MONITE CHEATS <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">Duracion - 1 Mes</p>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <p class="price-option-title">PANEL + KEY + CERTIFICADO</p>
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$520 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$27 USD</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-option">
+                        <p class="price-option-title">SOLO PANEL + KEY</p>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$19 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/528683555629?text=Quiero+MONITE+CHEATS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            </div>
+            
+            <div class="product-card">
+                <span class="product-badge">ANDROID</span>
+                <div class="product-icon"><i data-lucide="cpu"></i></div>
+                <h3 class="product-title">HG CHEATS <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">Duracion - 1 Mes</p>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$240 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$15 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/528683555629?text=Quiero+HG+CHEATS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            </div>
+            
+            <div class="product-card">
+                <span class="product-badge">ANDROID</span>
+                <div class="product-icon"><i data-lucide="settings"></i></div>
+                <h3 class="product-title">CUBAN MODS <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">Duracion - 1 Mes</p>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$220 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$11 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/528683555629?text=Quiero+CUBAN+MODS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            </div>
+            
+            <div class="product-card">
+                <span class="product-badge">ANDROID</span>
+                <div class="product-icon"><i data-lucide="zap"></i></div>
+                <h3 class="product-title">DRIPCLIENT <i data-lucide="star" class="star"></i></h3>
+                <p class="product-desc">Duracion - 1 Mes</p>
+                
+                <div class="price-section">
+                    <div class="price-option">
+                        <div class="price-row">
+                            <span class="price-label">🇲🇽 México:</span>
+                            <span class="price">$280 MXN</span>
+                        </div>
+                        <div class="price-row">
+                            <span class="price-label">🇺🇸 USA:</span>
+                            <span class="price-usd">$17 USD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <a href="https://wa.me/528683555629?text=Quiero+DRIPCLIENT+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="section">
+        <div class="creator-card">
+            <div class="creator-icon">
+                <i data-lucide="crown"></i>
+            </div>
+            <div class="creator-badge">
+                <i data-lucide="shield" style="width:14px;height:14px;"></i>
+                CREADOR OFICIAL
+            </div>
+            <h3 class="creator-name">SENSI <span class="highlight"> HANZX</span></h3>
+            <p class="creator-role">Fundador de SENSI HANZX</p>
+            <a href="https://wa.me/528683555629" class="btn-main">
+                <i data-lucide="message-circle"></i>
+                CONTACTAR AL CREADOR
+            </a>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <i data-lucide="crown"></i>
+                <span><span class="glow-text">SENSI</span> HANZX</span>
+            </div>
+            <p class="footer-text">Mercado Digital Premium - Todos los derechos reservados 2026</p>
+            <p class="footer-note">⚠️ USA: Se cobran $2 USD extra como comisión</p>
+        </div>
+    </footer>
+    
+    <a href="https://wa.me/528683555629" class="btn-float">
+        <i data-lucide="message-circle"></i>
+    </a>
+    
+    <script>
+        lucide.createIcons();
+        
+        // Partículas
+        const particlesDiv = document.getElementById('particles');
+        for(let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+            particlesDiv.appendChild(particle);
+        }
+        
+        // SISTEMA DE LOGIN
+        let isLoginMode = true;
+        
+        function openModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('authForm').reset();
+            document.getElementById('errorMsg').classList.remove('active');
+        }
+        
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            const nameGroup = document.getElementById('nameGroup');
+            const modalTitle = document.getElementById('modalTitle');
+            const submitBtn = document.getElementById('submitBtn');
+            const switchText = document.getElementById('switchText');
+            const switchLink = document.getElementById('switchLink');
+            const modalSubtitle = document.getElementById('modalSubtitle');
+            
+            if (isLoginMode) {
+                nameGroup.style.display = 'none';
+                modalTitle.textContent = 'Bienvenido de nuevo';
+                modalSubtitle.textContent = 'Inicia sesión en tu cuenta';
+                submitBtn.textContent = 'Acceso';
+                switchText.textContent = '¿No tienes cuenta?';
+                switchLink.textContent = 'Regístrate';
+            } else {
+                nameGroup.style.display = 'block';
+                modalTitle.textContent = 'Crear cuenta';
+                modalSubtitle.textContent = 'Regístrate para continuar';
+                submitBtn.textContent = 'Crear cuenta';
+                switchText.textContent = '¿Ya tienes cuenta?';
+                switchLink.textContent = 'Inicia sesión';
+            }
+            document.getElementById('errorMsg').classList.remove('active');
+        }
+        
+        document.getElementById('auth
