@@ -498,3 +498,70 @@
         }
         
         document.getElementById('auth
+        document.getElementById('authForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('userEmail').value;
+            const password = document.getElementById('userPassword').value;
+            const name = document.getElementById('userName').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (isLoginMode) {
+                const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+                const user = users.find(u => u.email === email && u.password === password);
+                
+                if (user) {
+                    localStorage.setItem('sensi_currentUser', JSON.stringify(user));
+                    updateUI();
+                    closeModal();
+                } else {
+                    errorMsg.textContent = 'Email o contraseña incorrectos';
+                    errorMsg.classList.add('active');
+                }
+            } else {
+                if (!name) {
+                    errorMsg.textContent = 'Ingresa tu nombre';
+                    errorMsg.classList.add('active');
+                    return;
+                }
+                
+                const users = JSON.parse(localStorage.getItem('sensi_users') || '[]');
+                if (users.find(u => u.email === email)) {
+                    errorMsg.textContent = 'Este email ya está registrado';
+                    errorMsg.classList.add('active');
+                    return;
+                }
+                
+                const newUser = { name, email, password, date: new Date().toISOString() };
+                users.push(newUser);
+                localStorage.setItem('sensi_users', JSON.stringify(users));
+                localStorage.setItem('sensi_currentUser', JSON.stringify(newUser));
+                updateUI();
+                closeModal();
+            }
+        });
+        
+        function logout() {
+            localStorage.removeItem('sensi_currentUser');
+            updateUI();
+        }
+        
+        function updateUI() {
+            const currentUser = JSON.parse(localStorage.getItem('sensi_currentUser') || 'null');
+            const userInfo = document.getElementById('userInfo');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (currentUser) {
+                userInfo.classList.add('active');
+                loginBtn.style.display = 'none';
+                document.getElementById('userNameDisplay').textContent = currentUser.name;
+                document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            } else {
+                userInfo.classList.remove('active');
+                loginBtn.style.display = 'flex';
+            }
+        }
+        
+        updateUI();
+    </script>
+</body>
+</html>
