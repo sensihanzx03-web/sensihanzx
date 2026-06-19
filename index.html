@@ -1,535 +1,1300 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SENSI HANZX - MERCADO DIGITAL</title>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&display=swap');
-        
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Orbitron', sans-serif; 
-            background: #0a0a0f; 
-            color: #fff;
-            overflow-x: hidden;
-            background-image: 
-                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-        }
-        
-        .particle { position: fixed; width: 2px; height: 2px; background: #00ff88; border-radius: 50%; animation: float 8s infinite; z-index: 0; opacity: 0.4; }
-        @keyframes float { 0%, 100% { transform: translateY(0) translateX(0); opacity: 0; } 50% { opacity: 0.6; } 100% { transform: translateY(-100vh) translateX(30px); opacity: 0; } }
-        
-        .top-bar { border-bottom: 1px solid rgba(0,255,136,0.2); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        .header-container { max-width: 1200px; margin: auto; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-        .logo { display: flex; align-items: center; gap: 8px; font-size: 1.2rem; font-weight: 900; }
-        .logo i { color: #00ff88; }
-        .glow-text { color: #00ff88; text-shadow: 0 0 15px rgba(0,255,136,0.8), 0 0 30px rgba(0,255,136,0.4); }
-        .menu-btn { background: none; border: none; color: rgba(255,255,255,0.7); cursor: pointer; }
-        
-        .hero { position: relative; z-index: 1; max-width: 800px; margin: auto; padding: 40px 20px 60px; text-align: center; }
-        .badge-online { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,0,0,0.4); font-size: 0.75rem; font-weight: bold; margin-bottom: 40px; }
-        .badge-online .dot { width: 8px; height: 8px; background: #00ff88; border-radius: 50%; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        
-        .hero h1 { font-size: 4rem; font-weight: 900; margin-bottom: 16px; }
-        .hero .subtitulo { color: rgba(255,255,255,0.6); margin-bottom: 50px; font-size: 1rem; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; max-width: 400px; margin: 0 auto 24px; }
-        .stat-box { border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; background: rgba(0,0,0,0.4); backdrop-filter: blur(5px); padding: 16px; display: flex; align-items: center; justify-content: center; gap: 12px; }
-        .stat-box i { color: #00ff88; width: 20px; height: 20px; }
-        .stat-box .num { font-size: 1.5rem; font-weight: bold; color: #00ff88; }
-        .stat-box .label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
-        
-        .soporte-box { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(0,255,136,0.3); border-radius: 16px; background: rgba(0,0,0,0.4); padding: 12px 24px; margin-bottom: 50px; }
-        .soporte-box i { color: #00ff88; width: 16px; height: 16px; }
-        
-        .btn-main { width: 100%; max-width: 350px; margin: 0 auto 16px; background: #00ff88; color: #0a0a0f; font-weight: 900; padding: 16px; border-radius: 16px; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; font-size: 1rem; box-shadow: 0 0 20px rgba(0,255,136,0.4), 0 0 40px rgba(0,255,136,0.1); transition: 0.3s; }
-        .btn-main:hover { transform: scale(1.05); }
-        
-        .btn-second { width: 100%; max-width: 350px; margin: 0 auto; background: transparent; color: #00ff88; font-weight: 900; padding: 16px; border-radius: 16px; border: 2px solid rgba(0,255,136,0.5); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; font-size: 1rem; transition: 0.3s; }
-        .btn-second:hover { background: rgba(0,255,136,0.1); }
-        
-        .section { padding: 60px 20px; max-width: 1200px; margin: auto; position: relative; z-index: 1; }
-        .section-header { text-align: center; margin-bottom: 40px; }
-        .badge-section { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; border: 1px solid rgba(0,255,136,0.3); background: rgba(0,0,0,0.4); font-size: 0.75rem; font-weight: bold; margin-bottom: 16px; }
-        .section h2 { font-size: 2.5rem; font-weight: 900; }
-        .section h2 .highlight { color: #00ff88; }
-        
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-        .product-card { border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); padding: 24px; position: relative; transition: 0.3s; }
-        .product-card:hover { border-color: rgba(0,255,136,0.6); box-shadow: 0 0 30px rgba(0,255,136,0.2); }
-        .product-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 50px; font-size: 0.7rem; font-weight: bold; background: #00ff88; color: #0a0a0f; }
-        .product-icon { width: 100%; height: 100px; background: rgba(0,0,0,0.3); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-        .product-icon i { color: #00ff88; width: 48px; height: 48px; }
-        .product-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
-        .product-title .star { color: #eab308; }
-        .product-desc { font-size: 0.85rem; color: rgba(255,255,255,0.6); margin-bottom: 16px; line-height: 1.4; }
-        .price-section { margin-bottom: 16px; }
-        .price-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-        .price-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); }
-        .price { font-size: 1.4rem; font-weight: 900; color: #00ff88; }
-        .price-usd { font-size: 1.1rem; color: rgba(255,255,255,0.7); }
-        .product-actions { display: flex; gap: 8px; }
-        .btn-comprar { flex: 1; background: #00ff88; color: #0a0a0f; font-weight: bold; padding: 14px; border-radius: 12px; border: none; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; font-family: 'Orbitron'; transition: 0.3s; }
-        .btn-comprar:hover { transform: scale(1.05); }
-        
-        .creator-card { max-width: 500px; margin: 60px auto 0; border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); padding: 40px; text-align: center; }
-        .creator-icon { width: 100px; height: 100px; margin: 0 auto 20px; border: 3px solid rgba(0,255,136,0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        .creator-icon i { color: #00ff88; width: 48px; height: 48px; }
-        .creator-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 50px; background: #00ff88; color: #0a0a0f; font-size: 0.75rem; font-weight: bold; margin-bottom: 16px; }
-        .creator-name { font-size: 1.8rem; font-weight: 900; margin-bottom: 8px; }
-        .creator-name .highlight { color: #00ff88; }
-        .creator-role { color: rgba(255,255,255,0.6); margin-bottom: 20px; }
-        
-        footer { border-top: 1px solid rgba(0,255,136,0.2); background: rgba(10,10,15,0.8); backdrop-filter: blur(10px); padding: 40px 20px; margin-top: 60px; position: relative; z-index: 1; }
-        .footer-content { max-width: 1200px; margin: auto; text-align: center; }
-        .footer-logo { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 1.3rem; font-weight: 900; margin-bottom: 12px; }
-        .footer-logo i { color: #00ff88; }
-        .footer-text { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-bottom: 24px; }
-        
-        .btn-float { position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px; background: #00ff88; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px rgba(0,255,136,0.6); text-decoration: none; z-index: 99; transition: 0.3s; }
-        .btn-float:hover { transform: scale(1.1); }
-        .btn-float i { color: #0a0a0f; width: 24px; height: 24px; }
-        
-        @media(max-width: 768px) {
-            .hero h1 { font-size: 2.8rem; }
-            .stats-grid { grid-template-columns: 1fr; }
-            .products-grid { grid-template-columns: 1fr; }
-        }
-    </style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SENSI HANZX — Mercado Digital Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet"/>
+<style>
+/* ══════════════════════════════════════
+   TEMA BASE (verde neón — original)
+══════════════════════════════════════ */
+:root {
+  --bg:        #080f0a;
+  --bg2:       #0a150c;
+  --accent:    #00ff88;
+  --accent2:   #00cc6a;
+  --accent3:   #00ffaa;
+  --gold:      #f59e0b;
+  --neon:      #39ff14;
+  --text:      #e8fff2;
+  --muted:     rgba(200,255,220,0.5);
+  --card-bg:   rgba(8,15,10,0.88);
+  --card-border: rgba(0,255,136,0.22);
+  --grid-col:  rgba(0,255,136,0.04);
+  --orb1-col:  rgba(0,204,106,0.15);
+  --orb2-col:  rgba(0,255,136,0.10);
+  --orb3-col:  rgba(57,255,20,0.08);
+  --particle-colors: #00ff88,#00ffaa,#39ff14,#00cc6a,#7fff00;
+  --glow-shadow: rgba(0,255,136,0.4);
+}
+
+/* ══════════════════════════════════════
+   TEMA ENCENDIDO (neón ultra-bright)
+══════════════════════════════════════ */
+[data-theme="hot"] {
+  --bg:        #010a04;
+  --bg2:       #020d06;
+  --accent:    #00ff66;
+  --accent2:   #00e55c;
+  --accent3:   #80ffb0;
+  --neon:      #00ff00;
+  --text:      #ccffe0;
+  --muted:     rgba(180,255,200,0.55);
+  --card-bg:   rgba(0,12,4,0.92);
+  --card-border: rgba(0,255,102,0.35);
+  --grid-col:  rgba(0,255,102,0.07);
+  --orb1-col:  rgba(0,230,90,0.28);
+  --orb2-col:  rgba(0,255,102,0.20);
+  --orb3-col:  rgba(0,255,0,0.15);
+  --glow-shadow: rgba(0,255,102,0.7);
+}
+[data-theme="hot"] body { background: var(--bg); }
+[data-theme="hot"] .bg-grid {
+  background-image:
+    linear-gradient(var(--grid-col) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-col) 1px, transparent 1px);
+}
+[data-theme="hot"] .orb1 { background: radial-gradient(circle,var(--orb1-col) 0%,transparent 70%); }
+[data-theme="hot"] .orb2 { background: radial-gradient(circle,var(--orb2-col) 0%,transparent 70%); }
+[data-theme="hot"] .orb3 { background: radial-gradient(circle,var(--orb3-col) 0%,transparent 70%); }
+[data-theme="hot"] .card { box-shadow: 0 0 8px rgba(0,255,102,0.1); }
+[data-theme="hot"] .card:hover { box-shadow: 0 20px 60px rgba(0,255,102,0.35), 0 0 0 1px rgba(0,255,102,0.25); }
+[data-theme="hot"] .btn-primary { box-shadow: 0 0 30px rgba(0,255,102,0.7); }
+
+/* ══════════════════════════════════════
+   RESET & BASE
+══════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Exo 2',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh;
+  transition: background .5s ease, color .3s;
+}
+
+/* ── FONDO ── */
+.bg-grid{
+  position:fixed;inset:0;z-index:0;
+  background-image:
+    linear-gradient(var(--grid-col) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-col) 1px, transparent 1px);
+  background-size:60px 60px;
+  animation:gridDrift 20s linear infinite;
+  transition: background-image .5s;
+  will-change:background-position;
+}
+@keyframes gridDrift{from{background-position:0 0;}to{background-position:60px 60px;}}
+
+.bg-orb{position:fixed;border-radius:50%;filter:blur(90px);z-index:0;pointer-events:none;transition:background .5s;will-change:transform;}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,var(--orb1-col) 0%,transparent 70%);top:-200px;right:-200px;animation:orbFloat 12s ease-in-out infinite;}
+.orb2{width:500px;height:500px;background:radial-gradient(circle,var(--orb2-col) 0%,transparent 70%);bottom:-100px;left:-150px;animation:orbFloat 15s ease-in-out infinite reverse;}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,var(--orb3-col) 0%,transparent 70%);top:50%;left:40%;animation:orbFloat 10s ease-in-out infinite 3s;}
+@keyframes orbFloat{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-30px) scale(1.06);}}
+
+/* ── PARTÍCULAS ── */
+#particles{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.particle{position:absolute;border-radius:50%;animation:rise linear infinite;opacity:0;will-change:transform,opacity;}
+@keyframes rise{0%{transform:translateY(0) translateX(0);opacity:0;}20%{opacity:1;}80%{opacity:.5;}100%{transform:translateY(-110vh) translateX(var(--drift));opacity:0;}}
+
+/* ══════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════ */
+.navbar{
+  position:sticky;top:0;z-index:200;
+  background:rgba(8,15,10,0.75);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(0,255,136,0.18);
+  padding:12px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+}
+
+.nav-logo{
+  display:flex;align-items:center;gap:9px;
+  font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
+  letter-spacing:2px;text-decoration:none;color:var(--text);
+  flex-shrink:0;
+}
+.logo-crown{font-size:1.3rem;}
+.logo-text .hl{color:var(--accent);text-shadow:0 0 10px var(--glow-shadow);}
+
+.nav-right{display:flex;align-items:center;gap:10px;}
+
+/* ── LUNA TOGGLE ── */
+.moon-toggle{
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(0,255,136,0.08);
+  border:1.5px solid rgba(0,255,136,0.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1.3rem;
+  transition:all .3s;
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.moon-toggle:hover{
+  background:rgba(0,255,136,0.18);
+  border-color:var(--accent);
+  box-shadow:0 0 16px var(--glow-shadow);
+  transform:scale(1.1) rotate(15deg);
+}
+.moon-toggle .moon-emoji{
+  transition:transform .4s ease, opacity .3s;
+  display:inline-block;
+}
+[data-theme="hot"] .moon-toggle{
+  background:rgba(0,255,102,0.15);
+  border-color:var(--accent);
+  box-shadow:0 0 20px var(--glow-shadow);
+}
+[data-theme="hot"] .moon-toggle .moon-emoji{
+  animation:moonSpin .5s ease;
+}
+@keyframes moonSpin{from{transform:rotate(0deg) scale(0.5);}to{transform:rotate(360deg) scale(1);}}
+
+.moon-tooltip{
+  position:absolute;bottom:-34px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,0.85);color:var(--accent);
+  font-size:0.6rem;font-weight:700;letter-spacing:1px;
+  padding:4px 8px;border-radius:6px;white-space:nowrap;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+  font-family:'Exo 2',sans-serif;
+}
+.moon-toggle:hover .moon-tooltip{opacity:1;}
+
+.nav-status{
+  display:flex;align-items:center;gap:7px;
+  font-size:0.7rem;font-weight:700;color:var(--muted);letter-spacing:1px;
+  flex-shrink:0;
+}
+.status-dot{width:7px;height:7px;background:#4ade80;border-radius:50%;animation:blink 2s infinite;box-shadow:0 0 7px #4ade80;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.btn-nav-wa{
+  display:flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:#07100a;border:none;border-radius:10px;
+  padding:10px 16px;font-family:'Exo 2',sans-serif;
+  font-size:0.78rem;font-weight:700;letter-spacing:1px;
+  cursor:pointer;text-decoration:none;
+  transition:all .3s;box-shadow:0 0 14px var(--glow-shadow);
+  flex-shrink:0;
+}
+.btn-nav-wa:hover{transform:translateY(-2px);box-shadow:0 0 26px var(--glow-shadow);}
+
+/* ══════════════════════════════════════
+   HERO
+══════════════════════════════════════ */
+.hero{
+  position:relative;z-index:1;
+  padding:70px 20px 50px;
+  text-align:center;max-width:860px;margin:0 auto;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:50px;
+  border:1px solid rgba(0,255,136,0.35);
+  background:rgba(0,255,136,0.07);
+  font-size:0.72rem;font-weight:700;letter-spacing:2px;
+  margin-bottom:28px;color:var(--accent3);
+  animation:fadeDown .8s ease both;
+}
+.hero-badge-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite;box-shadow:0 0 6px var(--accent);}
+
+.hero-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(2.8rem,9vw,5.5rem);
+  font-weight:700;line-height:1;
+  margin-bottom:12px;letter-spacing:3px;
+  animation:fadeDown .9s ease .1s both;
+}
+.hero-title .accent-txt{
+  background:linear-gradient(135deg,var(--accent),var(--neon),var(--accent3));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 18px var(--glow-shadow));
+}
+.hero-sub{
+  font-size:.9rem;color:var(--muted);margin-bottom:44px;
+  letter-spacing:3px;animation:fadeDown 1s ease .2s both;
+}
+
+/* ── STATS 2+1 ── */
+.stats-wrap{
+  display:flex;flex-direction:column;gap:12px;
+  max-width:480px;margin:0 auto 40px;
+  animation:fadeUp 1s ease .3s both;
+}
+.stats-row-top{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stats-row-bot{display:grid;grid-template-columns:1fr;gap:12px;}
+.stat-pill{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:16px 20px;
+  border:1px solid rgba(0,255,136,0.25);
+  border-radius:16px;
+  background:rgba(0,255,136,0.05);
+  backdrop-filter:blur(8px);
+  transition:all .3s;
+}
+.stat-pill:hover{
+  border-color:rgba(0,255,136,0.5);
+  background:rgba(0,255,136,0.1);
+  transform:translateY(-3px);
+  box-shadow:0 8px 24px rgba(0,255,136,0.15);
+}
+.stat-icon{font-size:1.4rem;}
+.stat-num{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.55rem;font-weight:700;
+  color:var(--accent);
+  text-shadow:0 0 10px var(--glow-shadow);
+}
+.stat-lbl{font-size:0.65rem;color:var(--muted);letter-spacing:1px;margin-top:1px;}
+
+.hero-ctas{
+  display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp 1s ease .4s both;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border-radius:14px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent),var(--neon));
+  color:#07100a;font-weight:700;font-size:.95rem;
+  border:none;cursor:pointer;text-decoration:none;
+  font-family:'Exo 2',sans-serif;letter-spacing:1px;
+  box-shadow:0 0 22px var(--glow-shadow);
+  transition:all .3s;position:relative;overflow:hidden;
+}
+.btn-primary::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent,rgba(255,255,255,0.18),transparent);
+  transform:translateX(-100%);transition:.5s;
+}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 0 40px var(--glow-shadow);}
+.btn-primary:hover::before{transform:translateX(100%);}
+.btn-primary:active{transform:scale(.97);}
+
+.btn-outline{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:15px 34px;border-radius:14px;
+  background:transparent;color:var(--accent);font-weight:700;font-size:.95rem;
+  border:2px solid rgba(0,255,136,0.4);cursor:pointer;text-decoration:none;
+  font-family:'Exo 2',sans-serif;letter-spacing:1px;
+  transition:all .3s;
+}
+.btn-outline:hover{background:rgba(0,255,136,0.1);border-color:var(--accent);transform:translateY(-3px);}
+
+/* ══════════════════════════════════════
+   DIVIDER
+══════════════════════════════════════ */
+.divider{position:relative;z-index:1;text-align:center;padding:0 20px;}
+.divider-line{height:1px;background:linear-gradient(90deg,transparent,rgba(0,255,136,0.4),transparent);margin:0 auto;max-width:800px;}
+
+/* ══════════════════════════════════════
+   SECCIÓN PRODUCTOS
+══════════════════════════════════════ */
+.section{position:relative;z-index:1;max-width:1300px;margin:0 auto;padding:60px 20px;}
+.section-header{text-align:center;margin-bottom:48px;}
+.section-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 17px;border-radius:50px;
+  border:1px solid rgba(0,255,136,0.3);
+  background:rgba(0,255,136,0.07);
+  font-size:0.7rem;font-weight:700;letter-spacing:2px;
+  margin-bottom:14px;color:var(--accent3);
+}
+.section-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(1.8rem,5vw,2.8rem);
+  font-weight:700;letter-spacing:2px;
+}
+.section-title .hl{
+  background:linear-gradient(135deg,var(--accent),var(--neon));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+/* ══════════════════════════════════════
+   CARDS
+══════════════════════════════════════ */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(285px,1fr));gap:22px;}
+
+.card{
+  position:relative;
+  border:1px solid var(--card-border);
+  border-radius:22px;
+  background:var(--card-bg);
+  backdrop-filter:blur(14px);
+  overflow:hidden;
+  transition:all .4s cubic-bezier(.23,1,.32,1);
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,255,136,0.05),transparent 60%);
+  opacity:0;transition:.4s;
+}
+.card:hover{
+  border-color:rgba(0,255,136,0.5);
+  transform:translateY(-8px) scale(1.01);
+  box-shadow:0 20px 55px rgba(0,255,136,0.2),0 0 0 1px rgba(0,255,136,0.12);
+}
+.card:hover::before{opacity:1;}
+
+.card-img-wrap{width:100%;height:175px;overflow:hidden;position:relative;background:#050e07;}
+.card-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .55s ease;
+  filter:brightness(.9) saturate(1.15);
+}
+.card:hover .card-img-wrap img{transform:scale(1.08);}
+.card-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 45%,rgba(5,14,7,0.88));
+}
+
+.card-badges{position:absolute;top:11px;left:11px;display:flex;gap:5px;z-index:2;}
+.badge{
+  padding:4px 10px;border-radius:8px;
+  font-size:0.63rem;font-weight:700;letter-spacing:1px;
+  backdrop-filter:blur(6px);
+}
+.badge-ios{background:rgba(14,165,233,0.82);color:#fff;border:1px solid rgba(14,165,233,0.5);}
+.badge-android{background:rgba(0,255,136,0.2);color:var(--accent);border:1px solid rgba(0,255,136,0.4);}
+.badge-free{background:rgba(245,158,11,0.88);color:#07100a;border:1px solid rgba(245,158,11,0.5);}
+
+/* HOT badge */
+.badge-hot{
+  position:absolute;top:11px;right:11px;z-index:3;
+  padding:5px 11px;border-radius:20px;
+  background:linear-gradient(135deg,#ef4444,#f97316);
+  color:#fff;font-size:0.62rem;font-weight:700;letter-spacing:1px;
+  display:flex;align-items:center;gap:4px;
+  animation:hotPulse 1.6s ease-in-out infinite;
+}
+@keyframes hotPulse{
+  0%,100%{box-shadow:0 0 8px rgba(239,68,68,0.5);transform:scale(1);}
+  50%{box-shadow:0 0 22px rgba(249,115,22,0.95);transform:scale(1.07);}
+}
+
+.card-body{padding:18px;}
+.card-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.12rem;font-weight:700;letter-spacing:1px;
+  margin-bottom:4px;color:var(--text);
+}
+.card-duration{font-size:.75rem;color:var(--muted);margin-bottom:13px;letter-spacing:.5px;}
+.prices{display:flex;flex-direction:column;gap:5px;margin-bottom:14px;}
+.price-row{display:flex;align-items:center;justify-content:space-between;}
+.price-flag{font-size:.78rem;color:var(--muted);}
+.price-val{font-family:'Rajdhani',sans-serif;font-size:1.18rem;font-weight:700;color:var(--accent);}
+.price-val.free{color:#4ade80;}
+.price-secondary{font-size:.88rem;color:rgba(200,255,220,0.65);}
+.price-note{
+  font-size:.68rem;color:var(--muted);
+  padding:7px 10px;border-radius:8px;
+  background:rgba(0,255,136,0.06);
+  border:1px solid rgba(0,255,136,0.14);
+  margin-bottom:13px;
+}
+
+.btn-buy{
+  width:100%;padding:13px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  color:#07100a;font-weight:700;font-size:.85rem;
+  border:none;cursor:pointer;
+  font-family:'Exo 2',sans-serif;letter-spacing:1px;
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  transition:all .3s;position:relative;overflow:hidden;
+  box-shadow:0 0 14px rgba(0,255,136,0.25);
+}
+.btn-buy::after{
+  content:'';position:absolute;top:-50%;left:-60%;
+  width:40%;height:200%;
+  background:rgba(255,255,255,0.18);
+  transform:skewX(-20deg);
+  transition:left .45s;
+}
+.btn-buy:hover::after{left:130%;}
+.btn-buy:hover{transform:translateY(-2px);box-shadow:0 0 28px rgba(0,255,136,0.55);}
+.btn-buy:active{transform:scale(.97);}
+
+.btn-claim{
+  background:linear-gradient(135deg,#d97706,#f59e0b);
+  color:#07100a;
+  box-shadow:0 0 14px rgba(245,158,11,0.3);
+}
+.btn-claim:hover{box-shadow:0 0 28px rgba(245,158,11,0.65);}
+
+/* ══════════════════════════════════════
+   MODAL COMPRA
+══════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;z-index:500;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(14px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+}
+.modal-overlay.active{display:flex;}
+
+.modal{
+  background:linear-gradient(145deg,#080f0a,#0d1c10);
+  border:1px solid rgba(0,255,136,0.35);
+  border-radius:26px;
+  padding:36px 28px 32px;
+  max-width:460px;width:100%;
+  text-align:center;
+  box-shadow:0 0 60px rgba(0,255,136,0.2),0 40px 80px rgba(0,0,0,0.7);
+  animation:modalIn .4s cubic-bezier(.23,1,.32,1);
+  position:relative;
+  max-height:90vh;overflow-y:auto;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.82) translateY(28px);}to{opacity:1;transform:scale(1) translateY(0);}}
+
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  background:rgba(0,255,136,0.1);
+  border:1px solid rgba(0,255,136,0.25);
+  border-radius:50%;width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--muted);font-size:1rem;
+  transition:all .2s;
+}
+.modal-close:hover{background:rgba(0,255,136,0.25);color:var(--text);}
+
+.modal-wa-icon{
+  width:68px;height:68px;margin:0 auto 18px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 24px rgba(37,211,102,0.5);
+  font-size:2rem;
+}
+.modal-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:1.5rem;font-weight:700;
+  margin-bottom:4px;color:var(--text);
+}
+.modal-product-name{
+  font-size:.95rem;color:var(--accent);font-weight:700;
+  margin-bottom:14px;letter-spacing:1px;
+}
+
+/* resumen del pedido */
+.order-summary{
+  background:rgba(0,255,136,0.05);
+  border:1px solid rgba(0,255,136,0.18);
+  border-radius:14px;padding:14px 16px;
+  margin-bottom:16px;text-align:left;
+}
+.order-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:4px 0;font-size:.82rem;
+}
+.order-row:not(:last-child){border-bottom:1px solid rgba(0,255,136,0.08);}
+.order-label{color:var(--muted);}
+.order-val{color:var(--accent);font-weight:700;font-family:'Rajdhani',sans-serif;font-size:.95rem;}
+
+/* país selector */
+.country-label{
+  text-align:left;font-size:.72rem;font-weight:700;
+  letter-spacing:1px;color:var(--muted);margin-bottom:8px;
+}
+.country-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px;}
+.country-btn{
+  padding:12px 8px;border-radius:12px;
+  border:1.5px solid rgba(0,255,136,0.2);
+  background:rgba(0,255,136,0.04);
+  cursor:pointer;color:var(--text);
+  font-family:'Exo 2',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.5px;transition:all .25s;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.country-btn .cflag{font-size:1.4rem;}
+.country-btn .cname{color:var(--muted);font-size:.65rem;}
+.country-btn .cprice{color:var(--accent);font-family:'Rajdhani',sans-serif;font-size:1rem;}
+.country-btn:hover,.country-btn.selected{
+  border-color:var(--accent);
+  background:rgba(0,255,136,0.12);
+  box-shadow:0 0 16px rgba(0,255,136,0.25);
+}
+.country-btn.selected{border-width:2px;}
+
+.modal-notice{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:9px 13px;border-radius:10px;
+  background:rgba(245,158,11,0.07);
+  border:1px solid rgba(245,158,11,0.22);
+  margin-bottom:18px;
+  font-size:.7rem;color:rgba(245,158,11,.9);text-align:left;
+  line-height:1.5;
+}
+
+.btn-wa-confirm{
+  width:100%;padding:15px;border-radius:14px;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  color:#fff;font-weight:700;font-size:.95rem;
+  border:none;cursor:pointer;
+  font-family:'Exo 2',sans-serif;letter-spacing:1px;
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  text-decoration:none;
+  transition:all .3s;
+  box-shadow:0 0 18px rgba(37,211,102,0.4);
+}
+.btn-wa-confirm:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(37,211,102,0.7);}
+.btn-wa-confirm:disabled,.btn-wa-confirm.disabled{
+  opacity:.45;cursor:not-allowed;transform:none;pointer-events:none;
+}
+
+/* ══════════════════════════════════════
+   CREATOR
+══════════════════════════════════════ */
+.creator-wrap{max-width:500px;margin:0 auto 60px;}
+.creator-card{
+  border:1px solid rgba(0,255,136,0.28);border-radius:24px;
+  background:var(--card-bg);backdrop-filter:blur(14px);
+  padding:42px 28px;text-align:center;position:relative;overflow:hidden;
+}
+.creator-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,255,136,0.06),transparent);
+  pointer-events:none;
+}
+.creator-avatar{
+  width:88px;height:88px;margin:0 auto 14px;
+  border-radius:50%;
+  border:2px solid rgba(0,255,136,0.55);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.4rem;
+  background:linear-gradient(135deg,rgba(0,204,106,0.25),rgba(0,255,136,0.08));
+  box-shadow:0 0 24px rgba(0,255,136,0.35);
+  animation:avatarGlow 3s ease-in-out infinite;
+}
+@keyframes avatarGlow{0%,100%{box-shadow:0 0 18px rgba(0,255,136,0.35);}50%{box-shadow:0 0 38px rgba(57,255,20,0.65);}}
+.creator-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 15px;border-radius:50px;
+  background:linear-gradient(135deg,var(--accent2),var(--accent));
+  font-size:.7rem;font-weight:700;letter-spacing:1px;color:#07100a;
+  margin-bottom:12px;
+}
+.creator-name{font-family:'Rajdhani',sans-serif;font-size:1.9rem;font-weight:700;margin-bottom:5px;color:var(--text);}
+.creator-name span{color:var(--accent);}
+.creator-role{font-size:.82rem;color:var(--muted);margin-bottom:22px;letter-spacing:1px;}
+.creator-contact{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:13px 30px;border-radius:14px;
+  background:linear-gradient(135deg,#25d366,#128c7e);
+  color:#fff;font-weight:700;font-size:.9rem;
+  text-decoration:none;font-family:'Exo 2',sans-serif;letter-spacing:1px;
+  box-shadow:0 0 18px rgba(37,211,102,0.4);
+  transition:all .3s;
+}
+.creator-contact:hover{transform:translateY(-3px);box-shadow:0 0 32px rgba(37,211,102,0.65);}
+
+/* ══════════════════════════════════════
+   FOOTER
+══════════════════════════════════════ */
+footer{
+  position:relative;z-index:1;
+  border-top:1px solid rgba(0,255,136,0.18);
+  background:rgba(8,15,10,0.88);
+  backdrop-filter:blur(14px);
+  padding:38px 20px;text-align:center;
+}
+.footer-logo{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;
+  letter-spacing:2px;margin-bottom:10px;color:var(--text);
+}
+.footer-logo span{color:var(--accent);}
+.footer-copy{font-size:.8rem;color:var(--muted);margin-bottom:7px;}
+.footer-notice{font-size:.7rem;color:rgba(245,158,11,.75);}
+
+/* ══════════════════════════════════════
+   BUSCADOR DE PRODUCTOS
+══════════════════════════════════════ */
+.search-wrap{
+  max-width:520px;margin:0 auto 36px;
+  position:relative;z-index:2;
+  animation:fadeUp .8s ease .2s both;
+}
+.search-inner{
+  display:flex;align-items:center;
+  background:rgba(8,15,10,0.82);
+  border:1.5px solid rgba(0,255,136,0.3);
+  border-radius:14px;
+  padding:0 16px;
+  gap:10px;
+  transition:border-color .3s, box-shadow .3s;
+  backdrop-filter:blur(12px);
+}
+.search-inner:focus-within{
+  border-color:var(--accent);
+  box-shadow:0 0 22px rgba(0,255,136,0.25);
+}
+.search-icon{font-size:1.1rem;flex-shrink:0;opacity:.7;}
+.search-input{
+  flex:1;background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Exo 2',sans-serif;
+  font-size:.88rem;font-weight:500;letter-spacing:.5px;
+  padding:14px 0;
+}
+.search-input::placeholder{color:var(--muted);font-size:.83rem;}
+.search-clear{
+  background:none;border:none;cursor:pointer;
+  color:var(--muted);font-size:1.1rem;
+  padding:4px;border-radius:6px;
+  display:none;transition:color .2s;
+  flex-shrink:0;
+}
+.search-clear:hover{color:var(--accent);}
+.search-clear.visible{display:flex;}
+.search-no-results{
+  text-align:center;padding:60px 20px;
+  color:var(--muted);font-size:.9rem;letter-spacing:1px;
+  display:none;
+}
+.search-no-results.visible{display:block;}
+.search-no-results .no-res-icon{font-size:2.5rem;margin-bottom:12px;}
+.search-no-results p{margin-top:6px;font-size:.78rem;}
+
+
+
+/* ── ANIMACIONES ENTRADA ── */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease;}
+.fade-in.visible{opacity:1;transform:translateY(0);}
+.card:nth-child(1){transition-delay:.04s;}.card:nth-child(2){transition-delay:.09s;}
+.card:nth-child(3){transition-delay:.14s;}.card:nth-child(4){transition-delay:.19s;}
+.card:nth-child(5){transition-delay:.24s;}.card:nth-child(6){transition-delay:.29s;}
+.card:nth-child(7){transition-delay:.34s;}.card:nth-child(8){transition-delay:.39s;}
+.card:nth-child(9){transition-delay:.44s;}.card:nth-child(10){transition-delay:.49s;}
+
+@media(max-width:500px){
+  .stats-row-top{grid-template-columns:1fr 1fr;}
+  .hero-ctas{flex-direction:column;align-items:center;}
+  .btn-primary,.btn-outline{width:100%;max-width:340px;justify-content:center;}
+  .country-btns{grid-template-columns:1fr 1fr;}
+}
+</style>
 </head>
 <body>
-    <div id="particles"></div>
-    
-    <div class="top-bar">
-        <div class="header-container">
-            <div class="logo">
-                <i data-lucide="crown"></i>
-                <span><span class="glow-text">SENSI</span> HANZX</span>
-            </div>
-            <button class="menu-btn"><i data-lucide="menu"></i></button>
-        </div>
-    </div>
-    
-    <div class="hero">
-        <div class="badge-online">
-            <div class="dot"></div>
-            <span>ONLINE</span>
-        </div>
-        
-        <h1><span class="glow-text">SENSI</span> HANZX</h1>
-        <p class="subtitulo">👑 MERCADO DIGITAL PREMIUM 👑</p>
-        
-        <div class="stats-grid">
-            <div class="stat-box">
-                <i data-lucide="users"></i>
-                <div>
-                    <p class="num">785</p>
-                    <p class="label">Seguidores</p>
-                </div>
-            </div>
-            <div class="stat-box">
-                <i data-lucide="shopping-cart"></i>
-                <div>
-                    <p class="num">71</p>
-                    <p class="label">Compras</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="soporte-box">
-            <i data-lucide="wifi"></i>
-            <span>24/7 Soporte</span>
-        </div>
-        
-        <a href="#productos" class="btn-main">
-            <i data-lucide="zap"></i>
-            VER PRODUCTOS
-        </a>
-        <a href="https://whatsapp.com/channel/0029Vb7VLS4CRs1r8tEaEV21" class="btn-second">
-            <i data-lucide="crown"></i>
-            VER CANAL DE WHATSAPP
-        </a>
-    </div>
-    
-    <div class="section" id="productos">
-        <div class="section-header">
-            <div class="badge-section">
-                <i data-lucide="box"></i>
-                <span>CATÁLOGO 1 MES</span>
-            </div>
-            <h2>PLANES <span class="highlight">MENSUALES</span></h2>
-        </div>
-        
-        <div class="products-grid" id="productsGrid">
-            <!-- FLOURITE -->
-            <div class="product-card">
-                <span class="product-badge">IPHONE</span>
-                <div class="product-icon"><i data-lucide="smartphone"></i></div>
-                <h3 class="product-title">FLOURITE <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$560 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$30 USD</span>
-                    </div>
-                </div>
-                <div class="product-desc" style="margin-bottom: 16px;">EL MEJOR PRODUCTO DE IPHONE</div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+FLOURITE+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- MONITE CHEATS -->
-            <div class="product-card">
-                <span class="product-badge">IPHONE</span>
-                <div class="product-icon"><i data-lucide="shield"></i></div>
-                <h3 class="product-title">MONITE CHEATS <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$500 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$25 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+MONITE+CHEATS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- HG CHEATS -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="cpu"></i></div>
-                <h3 class="product-title">HG CHEATS <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$15 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+HG+CHEATS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- CUBAN MODS -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="settings"></i></div>
-                <h3 class="product-title">CUBAN MODS <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$11 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+CUBAN+MODS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- DRIPCLIENT -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="zap"></i></div>
-                <h3 class="product-title">DRIPCLIENT <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$260 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$17 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+DRIPCLIENT+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
 
-            <!-- PATO TEAM GREEN 🟢 -->
-            <div class="product-card" style="border-color: rgba(34,197,94,0.5);">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="users" style="color: #22c55e;"></i></div>
-                <h3 class="product-title">PATO TEAM GREEN 🟢</h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$320 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$19 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+PATO+TEAM+GREEN" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
+<div class="bg-grid"></div>
+<div class="bg-orb orb1"></div>
+<div class="bg-orb orb2"></div>
+<div class="bg-orb orb3"></div>
+<div id="particles"></div>
 
-            <!-- PATO TEAM ORANGE 🟠 -->
-            <div class="product-card" style="border-color: rgba(249,115,22,0.5);">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="users" style="color: #f97316;"></i></div>
-                <h3 class="product-title">PATO TEAM ORANGE 🟠</h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$360 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$20 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+PATO+TEAM+ORANGE" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-
-            <!-- PATO TEAM BLUE 🔵 -->
-            <div class="product-card" style="border-color: rgba(59,130,246,0.5);">
-                <span class="product-badge">ANDROID</span>
-                <div class="product-icon"><i data-lucide="users" style="color: #3b82f6;"></i></div>
-                <h3 class="product-title">PATO TEAM BLUE 🔵</h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$300 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$18 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+PATO+TEAM+BLUE" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-<!-- BRMODS ROOT-->
-            <div class="product-card">
-                <span class="product-badge">ANDROID ROOT</span>
-                <div class="product-icon"><i data-lucide="zap"></i></div>
-                <h3 class="product-title">BRMODS ROOT <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$10 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+BRMODS+PC+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-<!-- HG CHEATS ROOT -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID ROOT</span>
-                <div class="product-icon"><i data-lucide="cpu"></i></div>
-                <h3 class="product-title">HG CHEATS ROOT <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$15 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+HG+CHEATS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- CUBAN MODS ROOT -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID ROOT</span>
-                <div class="product-icon"><i data-lucide="settings"></i></div>
-                <h3 class="product-title">CUBAN MODS ROOT <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$11 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+CUBAN+MODS+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- DRIPCLIENT ROOT -->
-            <div class="product-card">
-                <span class="product-badge">ANDROID ROOT</span>
-                <div class="product-icon"><i data-lucide="zap"></i></div>
-                <h3 class="product-title">DRIPCLIENT ROOT <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$260 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$17 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+DRIPCLIENT+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <div class="product-card">
-                <span class="product-badge">PC</span>
-                <div class="product-icon"><i data-lucide="zap"></i></div>
-                <h3 class="product-title">BRMODS PC <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$200 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$10 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+BRMODS+PC+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-        
-            <!-- DRIPCLIENT PC -->
-            <div class="product-card">
-                <span class="product-badge">PC</span>
-                <div class="product-icon"><i data-lucide="zap"></i></div>
-                <h3 class="product-title">DRIPCLIENT PC <i data-lucide="star" class="star"></i></h3>
-                <p class="product-desc">Duracion - 1 Mes</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">$320 MXN</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">$16 USD</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://wa.me/528683555629?text=Quiero+DRIPCLIENT+PC+1+MES" class="btn-comprar"><i data-lucide="shopping-cart"></i> COMPRAR</a>
-                </div>
-            </div>
-            
-            <!-- FAKELAG GRATIS ✅-->
-            <div class="product-card" style="border-color: rgba(59,130,246,0.5);">
-                <span class="product-badge">GRATIS</span>
-                <div class="product-icon"><i data-lucide="users" style="color: #3b82f6;"></i></div>
-                <h3 class="product-title">FAKELAG GRATIS ✅</h3>
-                <p class="product-desc">Sin Duracion</p>
-                <div class="price-section">
-                    <div class="price-row">
-                        <span class="price-label">🇲🇽 México:</span>
-                        <span class="price">GRATIS</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">🇺🇸 USA:</span>
-                        <span class="price-usd">GRATIS</span>
-                    </div>
-                </div>
-                <div class="product-actions">
-                    <a href="https://whatsapp.com/channel/0029Vb6vTX58vd1X31BdDX1H" class="btn-comprar"><i data-lucide="shopping-cart"></i> RECLAMAR</a>
-                </div>
-            </div>
-
-        </div>
+<!-- ══ NAVBAR ══ -->
+<nav class="navbar">
+  <a class="nav-logo" href="#">
+    <span class="logo-crown">👑</span>
+    <span class="logo-text"><span class="hl">SENSI</span> HANZX</span>
+  </a>
+  <div class="nav-right">
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      <span>ONLINE</span>
     </div>
-    
-    <div class="section">
-        <div class="creator-card">
-            <div class="creator-icon">
-                <i data-lucide="crown"></i>
-            </div>
-            <div class="creator-badge">
-                <i data-lucide="shield" style="width:14px;height:14px;"></i>
-                CREADOR OFICIAL
-            </div>
-            <h3 class="creator-name">SENSI <span class="highlight"> HANZX</span></h3>
-            <p class="creator-role">Fundador de SENSI HANZX</p>
-            <a href="https://wa.me/528683555629" class="btn-main">
-                <i data-lucide="message-circle"></i>
-                CONTACTAR AL CREADOR
-            </a>
+    <!-- 🌙 TOGGLE TEMA -->
+    <button class="moon-toggle" id="themeToggle" title="Cambiar tema" onclick="toggleTheme()">
+      <span class="moon-emoji" id="moonEmoji">🌙</span>
+      <span class="moon-tooltip" id="moonTip">MODO NEÓN</span>
+    </button>
+    <a class="btn-nav-wa" href="https://wa.me/528683555629" target="_blank">📲 WhatsApp</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="hero-badge-dot"></div>
+    <span>MERCADO DIGITAL PREMIUM</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="accent-txt">SENSI HANZX</span>
+  </h1>
+  <p class="hero-sub">PRODUCTOS DIGITALES DE ÉLITE</p>
+
+  <div class="stats-wrap">
+    <div class="stats-row-top">
+      <div class="stat-pill">
+        <span class="stat-icon">🟢</span>
+        <div>
+          <div class="stat-num" data-count="1010">1,010</div>
+          <div class="stat-lbl">USUARIOS ONLINE</div>
         </div>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-icon">🛒</span>
+        <div>
+          <div class="stat-num" data-count="197">197</div>
+          <div class="stat-lbl">PEDIDOS HOY</div>
+        </div>
+      </div>
     </div>
-    
-    <footer>
-        <div class="footer-content">
-            <div class="footer-logo">
-                <i data-lucide="crown"></i>
-                <span><span class="glow-text">SENSI</span> HANZX</span>
-            </div>
-            <p class="footer-text">Mercado Digital Premium - Todos los derechos reservados 2026</p>
-            <p style="font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 8px;">⚠️ USA: Se cobran $2 USD extra como comisión</p>
+    <div class="stats-row-bot">
+      <div class="stat-pill">
+        <span class="stat-icon">⚡</span>
+        <div>
+          <div class="stat-num">24/7</div>
+          <div class="stat-lbl">SOPORTE ACTIVO — RESPUESTA INMEDIATA</div>
         </div>
-    </footer>
-    
-    <a href="https://wa.me/528683555629" class="btn-float">
-        <i data-lucide="message-circle"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-ctas">
+    <a class="btn-primary" href="#productos">⚡ VER PRODUCTOS</a>
+    <a class="btn-outline" href="https://whatsapp.com/channel/0029Vb7VLS4CRs1r8tEaEV21" target="_blank">👑 CANAL WA</a>
+  </div>
+</section>
+
+<div class="divider"><div class="divider-line"></div></div>
+
+<!-- ══ PRODUCTOS ══ -->
+<section class="section" id="productos">
+  <div class="section-header">
+    <div class="section-badge">CATÁLOGO OFICIAL · 1 MES</div>
+    <h2 class="section-title">PLANES <span class="hl">MENSUALES</span></h2>
+  </div>
+
+  <!-- ══ BUSCADOR ══ -->
+  <div class="search-wrap">
+    <div class="search-inner">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" type="text" placeholder="Buscar producto... (ej: iOS, Android, Drip)"/>
+      <button class="search-clear" id="searchClear" title="Limpiar">✕</button>
+    </div>
+  </div>
+  <div class="search-no-results" id="searchNoResults">
+    <div class="no-res-icon">🔎</div>
+    <strong>Sin resultados</strong>
+    <p>Intenta con otro nombre o plataforma</p>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+
+    <!-- MONITE CHEAST -->
+    <div class="card fade-in"
+      data-product="Monite Cheast"
+      data-platform="iOS"
+      data-plan="1 Mes"
+      data-mxn="$500 MXN"
+      data-usd="$29 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Monite+Cheast%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24500+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Monite+Cheast%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2429+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-ios">📱 iOS</span></div>
+      <span class="badge-hot">🔥 HOT</span>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/4NZMBbbr/Monite_Cheast_By_lito_Hacks.jpg" alt="Monite Cheast" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">MONITE CHEAST ⭐</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$500 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$27 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- FLOURITE -->
+    <div class="card fade-in"
+      data-product="Flourite"
+      data-platform="iOS"
+      data-plan="1 Mes"
+      data-mxn="$550 MXN"
+      data-usd="$37 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Flourite%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24550+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Flourite%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2439+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-ios">📱 iOS</span></div>
+      <span class="badge-hot">🔥 HOT</span>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/HsHKB44h/Flourite_iOs_by_lito_Hacks.jpg" alt="Flourite" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">FLOURITE ⭐</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$550 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$37 USD</span></div>
+        </div>
+        <div class="price-note">💡 Solo Panel + Key: $470 MXN / $27 USD</div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- DRIP CLIENT -->
+    <div class="card fade-in"
+      data-product="Drip Client APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$260 MXN"
+      data-usd="$17 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Drip+Client+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24260+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Drip+Client+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2419+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/5N1GnqqP/Drip_Client_By_lito_Hacks.jpg" alt="Drip Client" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">DRIP CLIENT ⭐</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$260 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$17 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- HG CHEAST -->
+    <div class="card fade-in"
+      data-product="HG Cheast APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$200 MXN"
+      data-usd="$15 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+HG+Cheast+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24200+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+HG+Cheast+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2417+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/Vv9hzd1j/Hg-cheast-By-lito-Hacks.png" alt="HG Cheast" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">HG CHEAST ⭐</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$200 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$15 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- CUBAN MODS -->
+    <div class="card fade-in"
+      data-product="Cuban Mods APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$200 MXN"
+      data-usd="$11 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Cuban+Mods+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24200+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Cuban+Mods+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2413+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/gc3QVBR1/Cuban_Hacks_By_lito_hacks.jpg" alt="Cuban Mods" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">CUBAN MODS ⭐</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$200 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$11 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- PATO TEAM BLUE -->
+    <div class="card fade-in"
+      data-product="Pato Team Blue APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$300 MXN"
+      data-usd="$18 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Blue+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24300+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Blue+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2420+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/HWbRwP56/Pato_team_Blue_by_lito_Hacks.png" alt="Pato Team Blue" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">PATO TEAM BLUE 🔵</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$300 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$18 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- PATO TEAM GREEN -->
+    <div class="card fade-in"
+      data-product="Pato Team Green APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$320 MXN"
+      data-usd="$19 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Green+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24320+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Green+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2421+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/xjLhvFHp/Pato-team-Greem-by-lito-Hacks.jpg" alt="Pato Team Green" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">PATO TEAM GREEN 🟢</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$320 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$19 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- PATO TEAM ORANGE -->
+    <div class="card fade-in"
+      data-product="Pato Team Orange APK-Mod"
+      data-platform="Android"
+      data-plan="1 Mes"
+      data-mxn="$360 MXN"
+      data-usd="$20 USD"
+      data-link-mx="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Orange+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+M%C3%A9xico%0APrecio%3A+%24360+MXN"
+      data-link-us="https://wa.me/528683555629?text=Hola%2C+quiero+comprar%0AProducto%3A+Pato+Team+Orange+APK-Mod%0APlan%3A+1+Mes%0APa%C3%ADs%3A+USA%0APrecio%3A+%2422+USD+%28+%242+comisi%C3%B3n%29">
+      <div class="card-badges"><span class="badge badge-android">🤖 Android</span></div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/Wp0CGfrn/Pato-Orange-Bylito-Hacks.png" alt="Pato Team Orange" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">PATO TEAM ORANGE 🟠</div>
+        <div class="card-duration">📅 Duración · 1 Mes</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val">$360 MXN</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">$20 USD</span></div>
+        </div>
+        <button class="btn-buy" onclick="openModal(this)">📲 COMPRAR POR WHATSAPP</button>
+      </div>
+    </div>
+
+    <!-- FAKE LAG GRATIS -->
+    <div class="card fade-in"
+      data-product="Fake Lag APK"
+      data-platform="Android"
+      data-plan="Sin Duración"
+      data-free="true"
+      data-link-mx="https://whatsapp.com/channel/0029Vb6vTX58vd1X31BdDX1H"
+      data-link-us="https://whatsapp.com/channel/0029Vb6vTX58vd1X31BdDX1H">
+      <div class="card-badges">
+        <span class="badge badge-free">🎁 GRATIS</span>
+        <span class="badge badge-android">🤖 Android</span>
+      </div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/66Cgr1Rn/Fake-Lag-by-lito-hacks.png" alt="Fake Lag" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">FAKE LAG ✅</div>
+        <div class="card-duration">⏳ Sin Duración — Permanente</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val free">GRATIS</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">FREE</span></div>
+        </div>
+        <button class="btn-buy btn-claim" onclick="openModal(this)">🎁 RECLAMAR GRATIS</button>
+      </div>
+    </div>
+
+    <!-- HOLOGRAMA DATA GRATIS -->
+    <div class="card fade-in"
+      data-product="Holograma Data"
+      data-platform="Android"
+      data-plan="Sin Duración"
+      data-free="true"
+      data-link-mx="https://whatsapp.com/channel/0029Vb6vTX58vd1X31BdDX1H"
+      data-link-us="https://whatsapp.com/channel/0029Vb6vTX58vd1X31BdDX1H">
+      <div class="card-badges">
+        <span class="badge badge-free">🎁 GRATIS</span>
+        <span class="badge badge-android">🤖 Android</span>
+      </div>
+      <div class="card-img-wrap">
+        <img src="https://i.postimg.cc/Pf19WFZM/By-Lito-Hacks.png" alt="Holograma Data" loading="lazy"/>
+        <div class="card-img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">HOLOGRAMA DATA ✅</div>
+        <div class="card-duration">⏳ Sin Duración — Permanente</div>
+        <div class="prices">
+          <div class="price-row"><span class="price-flag">🇲🇽 México</span><span class="price-val free">GRATIS</span></div>
+          <div class="price-row"><span class="price-flag">🇺🇸 USA</span><span class="price-secondary">FREE</span></div>
+        </div>
+        <button class="btn-buy btn-claim" onclick="openModal(this)">🎁 RECLAMAR GRATIS</button>
+      </div>
+    </div>
+
+  </div><!-- /grid -->
+</section>
+
+<!-- ══ CREATOR ══ -->
+<section class="section" style="padding-top:0;">
+  <div class="creator-wrap fade-in">
+    <div class="creator-card">
+      <div class="creator-avatar">👑</div>
+      <div class="creator-tag">CREADOR OFICIAL</div>
+      <div class="creator-name">SENSI <span>HANZX</span></div>
+      <div class="creator-role">Fundador · Desarrollador · Soporte 24/7</div>
+      <a class="creator-contact" href="https://wa.me/528683555629" target="_blank">
+        📲 CONTACTAR AL CREADOR
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">👑 <span>SENSI</span> HANZX</div>
+  <p class="footer-copy">Mercado Digital Premium — Todos los derechos reservados © 2026</p>
+  <p class="footer-notice">Clientes USA: se cobran $2 USD adicionales como comisión de transferencia</p>
+</footer>
+
+
+
+<!-- ══════════════════════════════════════
+     MODAL COMPRA CON SELECTOR DE PAÍS
+══════════════════════════════════════ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalBox">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+
+    <div class="modal-wa-icon">📲</div>
+    <div class="modal-title">Confirmar Pedido</div>
+    <div class="modal-product-name" id="mName">—</div>
+
+    <!-- Resumen -->
+    <div class="order-summary">
+      <div class="order-row">
+        <span class="order-label">📦 Producto</span>
+        <span class="order-val" id="mProd">—</span>
+      </div>
+      <div class="order-row">
+        <span class="order-label">📅 Plan</span>
+        <span class="order-val" id="mPlan">—</span>
+      </div>
+      <div class="order-row">
+        <span class="order-label">📱 Plataforma</span>
+        <span class="order-val" id="mPlat">—</span>
+      </div>
+      <div class="order-row" id="mPriceRow">
+        <span class="order-label">💰 Precio</span>
+        <span class="order-val" id="mPrice">—</span>
+      </div>
+    </div>
+
+    <!-- Selector país (oculto en free) -->
+    <div id="countrySection">
+      <div class="country-label">🌍 SELECCIONA TU PAÍS</div>
+      <div class="country-btns">
+        <button class="country-btn" id="btnMX" onclick="selectCountry('mx')">
+          <span class="cflag">🇲🇽</span>
+          <span class="cname">MÉXICO</span>
+          <span class="cprice" id="priceMX">—</span>
+        </button>
+        <button class="country-btn" id="btnUS" onclick="selectCountry('us')">
+          <span class="cflag">🇺🇸</span>
+          <span class="cname">USA (+$2 USD)</span>
+          <span class="cprice" id="priceUS">—</span>
+        </button>
+      </div>
+      <div class="modal-notice">
+        ⚠️ &nbsp; Clientes de <strong>USA</strong>: se agregan <strong>$2 USD</strong> de comisión al precio mostrado.
+      </div>
+    </div>
+
+    <a class="btn-wa-confirm disabled" id="modalConfirmBtn" href="#" target="_blank">
+      📲 &nbsp; IR A WHATSAPP &nbsp;→
     </a>
-    
-    <script>
-        lucide.createIcons();
-        
-        const particlesDiv = document.getElementById('particles');
-        for(let i = 0; i < 40; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 8 + 's';
-            particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-            particlesDiv.appendChild(particle);
-        }
-    </script>
+  </div>
+</div>
+
+<script>
+/* ══ PARTÍCULAS ══ */
+(function(){
+  const c = document.getElementById('particles');
+  const colors = ['#00ff88','#00ffaa','#39ff14','#00cc6a','#7fff00'];
+  for(let i=0;i<80;i++){
+    const p=document.createElement('div');
+    const sz=Math.random()*2.5+1;
+    const col=colors[Math.floor(Math.random()*colors.length)];
+    const drift=(Math.random()-.5)*70+'px';
+    p.className='particle';
+    p.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;width:${sz}px;height:${sz}px;background:${col};--drift:${drift};animation-duration:${6+Math.random()*8}s;animation-delay:${Math.random()*8}s;box-shadow:0 0 ${sz*2}px ${col};`;
+    c.appendChild(p);
+  }
+})();
+
+/* ══ SCROLL REVEAL ══ */
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:.1});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+/* ══ CONTADOR ANIMADO ══ */
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.stat-num[data-count]').forEach(el=>{
+    const target=parseInt(el.dataset.count);
+    let n=0;const step=Math.ceil(target/60);
+    const t=setInterval(()=>{
+      n=Math.min(n+step,target);
+      el.textContent=n.toLocaleString();
+      if(n>=target)clearInterval(t);
+    },1500/60);
+  });
+});
+
+/* ══ TOGGLE TEMA LUNA ══ */
+let hotMode = false;
+function toggleTheme(){
+  hotMode=!hotMode;
+  const html=document.documentElement;
+  const emoji=document.getElementById('moonEmoji');
+  const tip=document.getElementById('moonTip');
+  if(hotMode){
+    html.setAttribute('data-theme','hot');
+    emoji.textContent='🌕';
+    tip.textContent='MODO NORMAL';
+    // re-colorear partículas
+    document.querySelectorAll('.particle').forEach(p=>{
+      const cols=['#00ff66','#00ff00','#80ffb0','#00e55c','#ccff00'];
+      const c=cols[Math.floor(Math.random()*cols.length)];
+      p.style.background=c;p.style.boxShadow=`0 0 4px ${c}`;
+    });
+  } else {
+    html.removeAttribute('data-theme');
+    emoji.textContent='🌙';
+    tip.textContent='MODO NEÓN';
+    document.querySelectorAll('.particle').forEach(p=>{
+      const cols=['#00ff88','#00ffaa','#39ff14','#00cc6a','#7fff00'];
+      const c=cols[Math.floor(Math.random()*cols.length)];
+      p.style.background=c;p.style.boxShadow=`0 0 4px ${c}`;
+    });
+  }
+}
+
+/* ══ MODAL ══ */
+let currentCard=null, selectedCountry=null;
+
+function openModal(btn){
+  const card=btn.closest('.card');
+  currentCard=card;
+  selectedCountry=null;
+
+  const name    = card.dataset.product;
+  const plan    = card.dataset.plan;
+  const plat    = card.dataset.platform;
+  const mxn     = card.dataset.mxn;
+  const usd     = card.dataset.usd;
+  const isFree  = card.dataset.free==='true';
+
+  // llenar datos
+  document.getElementById('mName').textContent  = name;
+  document.getElementById('mProd').textContent  = name;
+  document.getElementById('mPlan').textContent  = plan;
+  document.getElementById('mPlat').textContent  = plat;
+  document.getElementById('mPrice').textContent = isFree ? 'GRATIS 🎁' : '— Selecciona país';
+
+  // precios en botones
+  document.getElementById('priceMX').textContent = isFree ? 'GRATIS' : mxn;
+  document.getElementById('priceUS').textContent = isFree ? 'FREE'   : usd;
+
+  // resetear selección
+  document.getElementById('btnMX').classList.remove('selected');
+  document.getElementById('btnUS').classList.remove('selected');
+
+  const confirmBtn = document.getElementById('modalConfirmBtn');
+  confirmBtn.classList.add('disabled');
+  confirmBtn.href='#';
+
+  // si es gratis: auto-select y ocultar aviso USA
+  if(isFree){
+    document.getElementById('countrySection').style.display='none';
+    document.getElementById('mPriceRow').style.display='none';
+    confirmBtn.textContent='🎁  IR A RECLAMAR  →';
+    confirmBtn.href = card.dataset.linkMx;
+    confirmBtn.classList.remove('disabled');
+  } else {
+    document.getElementById('countrySection').style.display='block';
+    document.getElementById('mPriceRow').style.display='flex';
+    confirmBtn.innerHTML='💬 &nbsp; SELECCIONA TU PAÍS PRIMERO';
+  }
+
+  document.getElementById('modalOverlay').classList.add('active');
+  document.body.style.overflow='hidden';
+}
+
+function selectCountry(c){
+  if(!currentCard) return;
+  selectedCountry=c;
+  const isFree=currentCard.dataset.free==='true';
+  const mxn=currentCard.dataset.mxn;
+  const usd=currentCard.dataset.usd;
+
+  document.getElementById('btnMX').classList.toggle('selected',c==='mx');
+  document.getElementById('btnUS').classList.toggle('selected',c==='us');
+
+  const price   = c==='mx' ? mxn : usd;
+  const linkKey = c==='mx' ? 'linkMx' : 'linkUs';
+  const link    = currentCard.dataset[linkKey];
+
+  document.getElementById('mPrice').textContent = price;
+
+  const confirmBtn=document.getElementById('modalConfirmBtn');
+  confirmBtn.innerHTML = c==='mx'
+    ? '📲 &nbsp; CONFIRMAR EN WHATSAPP 🇲🇽 →'
+    : '📲 &nbsp; CONFIRMAR EN WHATSAPP 🇺🇸 →';
+  confirmBtn.href=link;
+  confirmBtn.classList.remove('disabled');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('active');
+  document.body.style.overflow='';
+  currentCard=null;selectedCountry=null;
+}
+function closeModalOutside(e){if(e.target===document.getElementById('modalOverlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ══ BUSCADOR DE PRODUCTOS ══ */
+(function(){
+  const input = document.getElementById('searchInput');
+  const clearBtn = document.getElementById('searchClear');
+  const noResults = document.getElementById('searchNoResults');
+
+  function filterProducts(){
+    const q = input.value.toLowerCase().trim();
+    clearBtn.classList.toggle('visible', q.length > 0);
+    const cards = document.querySelectorAll('#productsGrid .card');
+    let visible = 0;
+    cards.forEach(card => {
+      const name = (card.dataset.product || '').toLowerCase();
+      const platform = (card.dataset.platform || '').toLowerCase();
+      const plan = (card.dataset.plan || '').toLowerCase();
+      const match = !q || name.includes(q) || platform.includes(q) || plan.includes(q);
+      card.style.display = match ? '' : 'none';
+      if(match) visible++;
+    });
+    noResults.classList.toggle('visible', visible === 0 && q.length > 0);
+  }
+
+  input.addEventListener('input', filterProducts);
+  clearBtn.addEventListener('click', () => {
+    input.value = '';
+    filterProducts();
+    input.focus();
+  });
+})();
+</script>
 </body>
-</html>
+    </html>
